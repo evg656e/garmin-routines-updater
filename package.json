@@ -1,9 +1,9 @@
 {
   "name": "garmin-routines-updater",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Retrieves activities from Garmin site and saves them to Excel with some additional metrics for better over time analysis",
   "scripts": {
-    "update:swim": "garmin-connect-scraper --config=config/swim.config.json --username=%USERNAME% --password=%PASSWORD% && C:/PROGRA~1/PowerShell/7-preview/pwsh.exe ./scripts/Update-SwimRoutines.ps1"
+    "update:swim": "garmin-connect-scraper --config=config/swim.config.json --username=%npm_config_username% --password=%npm_config_password% && %npm_config_powershell% ./scripts/Update-SwimRoutines.ps1"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/evg656e/garmin-routines-updater#readme",
   "devDependencies": {
-    "garmin-connect-scraper": "0.0.2"
+    "garmin-connect-scraper": "^1.0.0"
   }
 }
