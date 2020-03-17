@@ -209,22 +209,24 @@ function Update-Activity($Workbook, $ActivityId) {
     $Splits = Get-Json $SplitsFile -AsHashtable
     done
 
-    $Laps = $Splits.lapDTOs[0].lengthDTOs
-
-    log "Finding continous intervals for $ActivityId..."
-    $Results = Find-ContinousIntervals $Laps
-    log "$($Results.Count) intervals found."
-
-    if ($Results.Count -eq 0) {
-        return
-    }
-
     $ActivityFile = Join-Path $ActivityDir "$ActivityId.json"
     log "Reading $ActivityFile ..."
     $Activity = Get-Json $ActivityFile -AsHashtable
     done
 
-    Update-Routines $Workbook $ActivityId $Activity $Laps $Results
+    foreach ($LapDTOs in $Splits.lapDTOs) {
+        $Laps = $LapDTOs.lengthDTOs
+
+        log "Finding continous intervals for $ActivityId at lap $($LapDTOs.lapIndex)..."
+        $Results = Find-ContinousIntervals $Laps
+        log "$($Results.Count) intervals found."
+    
+        if ($Results.Count -eq 0) {
+            continue
+        }
+    
+        Update-Routines $Workbook $ActivityId $Activity $Laps $Results
+    }
 
     log "Activity $ActivityId updated."
 }
