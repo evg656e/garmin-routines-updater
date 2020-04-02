@@ -51,7 +51,7 @@ function Get-JsonDefault([string]$Path, [object]$DefaultValue, [switch]$AsHashta
 
 function Set-Json([string]$Path, [object]$Value) {
     $ParentPath = Split-Path $Path -Parent
-    if (!(Test-Path $ParentPath)) {
+    if ($ParentPath -and !(Test-Path $ParentPath)) {
         mkdir $ParentPath -Force
     }
     Set-Content -Path $Path -Value (ConvertTo-Json -InputObject $Value) -Encoding utf8
